@@ -10,6 +10,12 @@ import (
 	typev1 "k8s.io/client-go/kubernetes/typed/batch/v1"
 )
 
+const (
+	RestartPolicyAlways    RestartPolicy = "Always"
+	RestartPolicyOnFailure RestartPolicy = "OnFailure"
+	RestartPolicyNever     RestartPolicy = "Never"
+)
+
 type Job struct {
 	JobObj *batchv1.Job
 }
@@ -32,6 +38,7 @@ func NewJobObject(name string, namespace string) Job {
 								Command: []string{"ping", "-c 4", "google.com"},
 							},
 						},
+						RestartPolicy: RestartPolicyOnFailure,
 					},
 				},
 			},
