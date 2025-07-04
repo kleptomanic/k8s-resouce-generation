@@ -10,21 +10,27 @@ import (
 	typev1 "k8s.io/client-go/kubernetes/typed/batch/v1"
 )
 
-func NewJobObject(name string, namespace string) *batchv1.Job {
-	return &batchv1.Job{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: namespace,
-		},
-		Spec: batchv1.JobSpec{
-			Template: corev1.PodTemplateSpec{
-				ObjectMeta: metav1.ObjectMeta{},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{
-						{
-							Name:    "TestinitContainer",
-							Image:   "busybox",
-							Command: []string{"ping", "-c 4", "google.com"},
+type Job struct {
+	JobObj *batchv1.Job
+}
+
+func NewJobObject(name string, namespace string) Job {
+	return Job{
+		JobObj: &batchv1.Job{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      name,
+				Namespace: namespace,
+			},
+			Spec: batchv1.JobSpec{
+				Template: corev1.PodTemplateSpec{
+					ObjectMeta: metav1.ObjectMeta{},
+					Spec: corev1.PodSpec{
+						Containers: []corev1.Container{
+							{
+								Name:    "TestinitContainer",
+								Image:   "busybox",
+								Command: []string{"ping", "-c 4", "google.com"},
+							},
 						},
 					},
 				},
@@ -33,8 +39,8 @@ func NewJobObject(name string, namespace string) *batchv1.Job {
 	}
 }
 
-func CreateJobs(jobClient typev1.JobInterface, ctx context.Context) (*batchv1.Job, error) {
-	job, err := jobClient.Create(ctx, metav1.CreateOptions{})
+func (j Job) CreateJobs(jobClient typev1.JobInterface, ctx context.Context) (*batchv1.Job, error) {
+	job, err := jobClient.Create(ctx, j.JobObj, metav1.CreateOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)
 	}
