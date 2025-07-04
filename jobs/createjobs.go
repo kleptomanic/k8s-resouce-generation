@@ -11,9 +11,9 @@ import (
 )
 
 const (
-	RestartPolicyAlways    RestartPolicy = "Always"
-	RestartPolicyOnFailure RestartPolicy = "OnFailure"
-	RestartPolicyNever     RestartPolicy = "Never"
+	RestartPolicyAlways    corev1.RestartPolicy = "Always"
+	RestartPolicyOnFailure corev1.RestartPolicy = "OnFailure"
+	RestartPolicyNever     corev1.RestartPolicy = "Never"
 )
 
 type Job struct {
@@ -38,7 +38,7 @@ func NewJobObject(name string, namespace string) Job {
 								Command: []string{"ping", "-c 4", "google.com"},
 							},
 						},
-						RestartPolicy: corev1.RestartPolicyAlways,
+						RestartPolicy: RestartPolicyAlways,
 					},
 				},
 			},
