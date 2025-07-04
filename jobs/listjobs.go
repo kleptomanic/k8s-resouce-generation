@@ -10,12 +10,12 @@ import (
 	typev1 "k8s.io/client-go/kubernetes/typed/batch/v1"
 )
 
-func jobsInterface(connection *kubernetes.Clientset, namespace string) typev1.JobInterface {
+func JobsClient(connection *kubernetes.Clientset, namespace string) typev1.JobInterface {
 	return connection.BatchV1().Jobs(namespace)
 }
 
 func ListJobs(connection *kubernetes.Clientset, ctx context.Context, namespace string) ([]corev1.Job, error) {
-	listinterface := jobsInterface(connection, namespace)
+	listinterface := JobsClient(connection, namespace)
 	jobs, err := listinterface.List(ctx, metav1.ListOptions{})
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)
