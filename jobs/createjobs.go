@@ -38,7 +38,7 @@ func NewJobObject(name string, namespace string) Job {
 								Command: []string{"ping", "-c 4", "google.com"},
 							},
 						},
-						RestartPolicy: RestartPolicyOnFailure,
+						RestartPolicy: corev1.RestartPolicyAlways,
 					},
 				},
 			},
