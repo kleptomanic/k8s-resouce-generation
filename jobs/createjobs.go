@@ -27,7 +27,7 @@ func NewJobObject(name string, namespace string) Job {
 					Spec: corev1.PodSpec{
 						Containers: []corev1.Container{
 							{
-								Name:    "TestinitContainer",
+								Name:    "testinitcontainer",
 								Image:   "busybox",
 								Command: []string{"ping", "-c 4", "google.com"},
 							},
